@@ -1,4 +1,4 @@
-﻿namespace PingPongGame
+﻿namespace PingPongGame.Validations
 {
     using System;
 

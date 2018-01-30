@@ -1,4 +1,6 @@
-﻿namespace PingPongGame.Management
+﻿using System;
+
+namespace PingPongGame.Management
 {
     public static class HighScoreManager
     {
@@ -6,6 +8,8 @@
 
         public static int GetPlayerScore() => playerScore;
 
-        public static void IncreasePlayerScore() => playerScore += 50;
+        public static void IncreasePlayerScore(int ballMovementSpeed) => playerScore += (ballMovementSpeed * 1);
+
+        public static void ResetPlayerPoints() => playerScore = 0;
     }
 }

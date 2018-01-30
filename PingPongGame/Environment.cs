@@ -2,6 +2,7 @@
 {
     using PingPongGame.GlobalConstants;
     using System;
+    using System.Threading;
 
     public static class Environment
     {
@@ -9,8 +10,9 @@
         {
             Console.Title = Constants.GameTitle;
             Console.CursorVisible = false;
-            Console.WindowHeight = Console.WindowHeight;
+            Console.BufferHeight = Console.WindowHeight;
             Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
         }
+
     }
 }

@@ -22,9 +22,65 @@
             Console.CursorVisible = true;
         }
 
+        public static void PrintFieldBorders()
+        {
+            //for (int col = Console.WindowWidth - 1; col >= Console.WindowWidth / 2; col--)
+            //{
+            //    Console.SetCursorPosition(col, 0);
+            //    Console.Write(Constants.TopBottomBorderElement);
+
+            //    Console.SetCursorPosition(col - 1, 0);
+            //    Console.Write(Constants.TopBottomBorderElement);
+
+            //    Console.SetCursorPosition(col, Console.WindowHeight - 2);
+            //    Console.Write(Constants.TopBottomBorderElement);
+
+            //    Console.SetCursorPosition(col - 1, Console.WindowHeight - 2);
+            //    Console.Write(Constants.TopBottomBorderElement);
+
+            //    if (col < Console.WindowHeight - 1)
+            //    {
+            //        Console.SetCursorPosition(Console.WindowWidth - 1, col);
+            //        Console.Write(Constants.RightBorderElement);
+            //    }
+
+            //}
+
+            for (int col = 0; col < Console.WindowWidth - 1; col += 5)
+            {
+
+                for (int innerCol = 1; innerCol <= 5; innerCol++)
+                {
+                    if (col + innerCol < Console.WindowWidth)
+                    {
+                        Console.SetCursorPosition(col + innerCol, 0);
+                        Console.Write(Constants.TopBottomBorderElement);
+
+                        Console.SetCursorPosition(col + innerCol, Console.WindowHeight - 2);
+                        Console.Write(Constants.TopBottomBorderElement);
+                    }
+
+                    if (col + innerCol < Console.WindowHeight - 2)
+                    {
+                        Console.SetCursorPosition(Console.WindowWidth - 1, col + innerCol);
+                        Console.Write(Constants.RightBorderElement);
+                    }
+                }
+
+
+            }
+
+        }
+
+        public static void DeleteElement(int y, int x)
+        {
+            Console.SetCursorPosition(y, x);
+            Console.Write(" ");
+        }
+
         public static void PrintPlayerScore(int playerScore)
         {
-            Console.SetCursorPosition(Constants.ScreenWidthMiddle / 2, 0);
+            Console.SetCursorPosition(Constants.ScreenWidthMiddle / 2, 1);
             Console.Write(Constants.PlayerScoreLabel + playerScore);
         }
 

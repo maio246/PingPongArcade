@@ -1,24 +1,27 @@
 ﻿namespace PingPongGame
 {
     using System;
+    using PingPongGame.Exceptions;
+    using PingPongGame.Management;
+    using PingPongGame.Visualisation;
+    using System.Collections.Generic;
     using System.Drawing;
     using System.Threading;
-    using System.Collections.Generic;
-    using PingPongGame.Management;
-    using PingPongGame.Exceptions;
-    using PingPongGame.Visualisation;
+    using System.Linq;
+    using PingPongGame.Validations;
 
     public class StartUp
     {
         private static bool changeDirection;
+        private static int ballMovementSpeed;
 
         public static void Main()
         {
             ChooseDifficulty:
-
-            Environment.SetEnvironment();
+            HighScoreManager.ResetPlayerPoints();
             List<Point> playerRocket = new List<Point>();
 
+            Environment.SetEnvironment();
             ConsolePrinter.StartScreen();
 
             ConsoleKeyInfo difficultyLevelKey = Console.ReadKey();
@@ -29,8 +32,10 @@
                 goto ChooseDifficulty;
             }
 
-            var keyToString = int.Parse(difficultyLevelKey.KeyChar.ToString());
-            playerRocket = PlayerRocketManager.CreatePlayerRocket(keyToString);
+            var parsedDifficultyKey = int.Parse(difficultyLevelKey.KeyChar.ToString());
+            playerRocket = PlayerRocketManager.CreatePlayerRocket(parsedDifficultyKey);
+
+            ballMovementSpeed = (5 * parsedDifficultyKey) + 20;
 
             Console.Clear();
             Console.CursorVisible = false;
@@ -42,6 +47,9 @@
             //default ball starting position
             var pongBall = new Point(Console.BufferHeight / 2, 1);
 
+            Console.Clear();
+            ConsolePrinter.PrintFieldBorders();
+
             while (true)
             {
                 if (Console.KeyAvailable)
@@ -51,29 +59,31 @@
                     if (GameKeyAuthenticator.IsArrowKey(movementDirectionKey))
                     {
                         var newDirection = DirectionManager.GetNextDirection(movementDirectionKey);
+                        var elementToDelete = PlayerRocketManager.GetElementToDelete(playerRocket, newDirection);
 
                         playerRocket = PlayerRocketManager.UpdateRocket(playerRocket, newDirection);
+                        ConsolePrinter.DeleteElement(elementToDelete.Y, elementToDelete.X);
                     }
-
-                    Console.Clear();
                 }
 
-                if (BallManager.IsHittingPlayerRocket(pongBall, ballDirection, playerRocket) && changeDirection)
+                if (BallBounceValidator.IsHittingPlayerRocket(pongBall, ballDirection, playerRocket) && changeDirection)
                 {
-                    HighScoreManager.IncreasePlayerScore();
+                    ballMovementSpeed -= (int)0.5;
+                    HighScoreManager.IncreasePlayerScore(ballMovementSpeed);
                     ballDirection = DirectionManager.GetDiagonalDirection(pongBall, ballDirection);
                 }
-                else if (BallManager.IsHittingBorder(pongBall, ballDirection))
+                else if (BallBounceValidator.IsHittingBorder(pongBall, ballDirection))
                 {
                     ballDirection = DirectionManager.GetDiagonalDirection(pongBall, ballDirection);
                 }
-                else if (BallManager.IsHittingEdge(pongBall, ballDirection))
+                else if (BallBounceValidator.IsHittingEdge(pongBall, ballDirection))
                 {
                     ballDirection = DirectionManager.GetReversedDiagonalDirection(pongBall, ballDirection);
                 }
 
                 try
                 {
+                    ConsolePrinter.DeleteElement(pongBall.Y, pongBall.X);
                     pongBall = BallManager.MoveBall(pongBall, ballDirection);
                 }
                 catch (GameOverException ex)
@@ -83,12 +93,12 @@
                 }
 
                 changeDirection = true;
-                Console.Clear();
+
                 ConsolePrinter.PrintPlayerScore(HighScoreManager.GetPlayerScore());
                 ConsolePrinter.PrintPongBall(pongBall);
                 ConsolePrinter.PrintPlayerRocket(playerRocket);
 
-                Thread.Sleep(50);
+                Thread.Sleep(ballMovementSpeed);
             }
 
             GameOver:
@@ -99,6 +109,10 @@
             {
                 Console.Clear();
                 goto ChooseDifficulty;
+            }
+            else
+            {
+                goto GameOver;
             }
         }
     }

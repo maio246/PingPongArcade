@@ -6,8 +6,13 @@
     {
         public static string PlayerRocketElement = "█";
         public static string PingPongBallElement = "@";
+        public static string TopBottomBorderElement = "-";
+        public static string RightBorderElement = "|";
+
 
         public static string GameTitle = "Ping Pong Arcade";
+
+        public static int FieldWidth = Console.WindowWidth / 5;
 
         public static string PlayerRocketSizeMessage = "Press button from 1 to 9";
         public static string DifficultyChoiceMessage = "to select the difficulty: ";

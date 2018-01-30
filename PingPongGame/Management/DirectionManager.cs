@@ -47,7 +47,7 @@
             else if (previousDirection == diagonalDirections[2])
             {
                 //...to forward and up
-                if (previousDirection.Y != Console.WindowWidth)
+                if (pongBall.Y + previousDirection.Y < Console.WindowWidth - 2)
                 {
                     return diagonalDirections[3];
                 }
@@ -59,7 +59,7 @@
             else
             {
                 //...to forward and down
-                if (pongBall.X == 0 && pongBall.Y != Console.WindowWidth)
+                if (pongBall.X == 1 && pongBall.Y != Console.WindowWidth)
                 {
                     return diagonalDirections[2];
                 }

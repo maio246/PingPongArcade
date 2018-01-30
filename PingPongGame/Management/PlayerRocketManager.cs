@@ -36,6 +36,6 @@
             }).ToList();
         }
 
-
+        public static Point GetElementToDelete(List<Point> playerRocket, Point newDirection) => newDirection.X == 1 ? playerRocket.First() : playerRocket.Last();
     }
 }
