@@ -10,7 +10,7 @@
         {
             if (pongBall.Y + movementDirection.Y <= 0)
             {
-                throw new GameOverException(Constants.GameOverMessage);
+                throw new GameOverException(GlobalConstants.GameOverMessage);
             }
 
             pongBall.X += movementDirection.X;

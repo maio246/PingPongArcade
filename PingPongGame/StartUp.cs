@@ -1,14 +1,13 @@
 ﻿namespace PingPongGame
 {
-    using System;
     using PingPongGame.Exceptions;
     using PingPongGame.Management;
+    using PingPongGame.Validations;
     using PingPongGame.Visualisation;
+    using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Threading;
-    using System.Linq;
-    using PingPongGame.Validations;
 
     public class StartUp
     {
@@ -17,7 +16,27 @@
 
         public static void Main()
         {
+            Console.CursorVisible = false;
+
+            ConsolePrinter.SinglePlayerScreen();
+            ConsoleKeyInfo playersChoise = Console.ReadKey();
+
+            while (playersChoise.Key != ConsoleKey.Enter)
+            {
+                if (playersChoise.Key == ConsoleKey.DownArrow)
+                {
+                    ConsolePrinter.MultiPlayerScreen();
+                }
+                else if (playersChoise.Key == ConsoleKey.UpArrow)
+                {
+                    ConsolePrinter.SinglePlayerScreen();
+                }
+
+                playersChoise = Console.ReadKey();
+            }
+
             ChooseDifficulty:
+
             HighScoreManager.ResetPlayerPoints();
             List<Point> playerRocket = new List<Point>();
 
@@ -32,10 +51,11 @@
                 goto ChooseDifficulty;
             }
 
+
             var parsedDifficultyKey = int.Parse(difficultyLevelKey.KeyChar.ToString());
             playerRocket = PlayerRocketManager.CreatePlayerRocket(parsedDifficultyKey);
 
-            ballMovementSpeed = (5 * parsedDifficultyKey) + 20;
+            ballMovementSpeed = (5 * parsedDifficultyKey) + 50;
 
             Console.Clear();
             Console.CursorVisible = false;
@@ -48,7 +68,7 @@
             var pongBall = new Point(Console.BufferHeight / 2, 1);
 
             Console.Clear();
-            ConsolePrinter.PrintFieldBorders();
+            ConsolePrinter.PrintFieldBorders(false);
 
             while (true)
             {

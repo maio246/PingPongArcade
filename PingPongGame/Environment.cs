@@ -8,7 +8,7 @@
     {
         public static void SetEnvironment()
         {
-            Console.Title = Constants.GameTitle;
+            Console.Title = GlobalConstants.GlobalConstants.GameTitle;
             Console.CursorVisible = false;
             Console.BufferHeight = Console.WindowHeight;
             Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);

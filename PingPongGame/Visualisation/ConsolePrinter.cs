@@ -11,63 +11,63 @@
 
         public static void StartScreen()
         {
-            var firstMessageOffset = Constants.PlayerRocketSizeMessage.Length / 2;
-            var secondMessageOffset = Constants.DifficultyChoiceMessage.Length / 2;
+            var firstMessageOffset = GlobalConstants.PlayerRocketSizeMessage.Length / 2;
+            var secondMessageOffset = GlobalConstants.DifficultyChoiceMessage.Length / 2;
 
-            Console.SetCursorPosition(Constants.ScreenWidthMiddle - firstMessageOffset, Constants.ScreenHeightMiddle);
-            Console.Write(Constants.PlayerRocketSizeMessage);
+            Console.Clear();
+            Console.SetCursorPosition(GlobalConstants.ScreenWidthMiddle - firstMessageOffset, GlobalConstants.ScreenHeightMiddle);
+            Console.Write(GlobalConstants.PlayerRocketSizeMessage);
 
-            Console.SetCursorPosition(Constants.ScreenWidthMiddle - secondMessageOffset, Constants.ScreenHeightMiddle + 1);
-            Console.Write(Constants.DifficultyChoiceMessage);
+            Console.SetCursorPosition(GlobalConstants.ScreenWidthMiddle - secondMessageOffset, GlobalConstants.ScreenHeightMiddle + 1);
+            Console.Write(GlobalConstants.DifficultyChoiceMessage);
             Console.CursorVisible = true;
         }
 
-        public static void PrintFieldBorders()
+        public static void SinglePlayerScreen()
         {
-            //for (int col = Console.WindowWidth - 1; col >= Console.WindowWidth / 2; col--)
-            //{
-            //    Console.SetCursorPosition(col, 0);
-            //    Console.Write(Constants.TopBottomBorderElement);
+            var firstMessageOffset = GlobalConstants.SelectedSingplePlayerMessage.Length / 2;
+            var secondMessageOffset = GlobalConstants.MultiplayerMessage.Length / 2;
 
-            //    Console.SetCursorPosition(col - 1, 0);
-            //    Console.Write(Constants.TopBottomBorderElement);
+            Console.Clear();
+            Console.SetCursorPosition(GlobalConstants.ScreenWidthMiddle - firstMessageOffset, GlobalConstants.ScreenHeightMiddle);
+            Console.Write(GlobalConstants.SelectedSingplePlayerMessage);
+            Console.SetCursorPosition(GlobalConstants.ScreenWidthMiddle - secondMessageOffset, GlobalConstants.ScreenHeightMiddle + 2);
+            Console.Write(GlobalConstants.MultiplayerMessage);
+        }
 
-            //    Console.SetCursorPosition(col, Console.WindowHeight - 2);
-            //    Console.Write(Constants.TopBottomBorderElement);
+        public static void MultiPlayerScreen()
+        {
+            var firstMessageOffset = GlobalConstants.SingplePlayerMessage.Length / 2;
+            var secondMessageOffset = GlobalConstants.SelectedMultiplayerMessage.Length / 2;
 
-            //    Console.SetCursorPosition(col - 1, Console.WindowHeight - 2);
-            //    Console.Write(Constants.TopBottomBorderElement);
+            Console.Clear();
+            Console.SetCursorPosition(GlobalConstants.ScreenWidthMiddle - firstMessageOffset, GlobalConstants.ScreenHeightMiddle);
+            Console.Write(GlobalConstants.SingplePlayerMessage);
+            Console.SetCursorPosition(GlobalConstants.ScreenWidthMiddle - secondMessageOffset, GlobalConstants.ScreenHeightMiddle + 2);
+            Console.Write(GlobalConstants.SelectedMultiplayerMessage);
+        }
 
-            //    if (col < Console.WindowHeight - 1)
-            //    {
-            //        Console.SetCursorPosition(Console.WindowWidth - 1, col);
-            //        Console.Write(Constants.RightBorderElement);
-            //    }
-
-            //}
-
+        public static void PrintFieldBorders(bool hasSecondPlayer)
+        {
             for (int col = 0; col < Console.WindowWidth - 1; col += 5)
             {
-
                 for (int innerCol = 1; innerCol <= 5; innerCol++)
                 {
                     if (col + innerCol < Console.WindowWidth)
                     {
                         Console.SetCursorPosition(col + innerCol, 0);
-                        Console.Write(Constants.TopBottomBorderElement);
+                        Console.Write(GlobalConstants.TopBottomBorderElement);
 
                         Console.SetCursorPosition(col + innerCol, Console.WindowHeight - 2);
-                        Console.Write(Constants.TopBottomBorderElement);
+                        Console.Write(GlobalConstants.TopBottomBorderElement);
                     }
 
-                    if (col + innerCol < Console.WindowHeight - 2)
+                    if (col + innerCol < Console.WindowHeight - 2 && hasSecondPlayer)
                     {
                         Console.SetCursorPosition(Console.WindowWidth - 1, col + innerCol);
-                        Console.Write(Constants.RightBorderElement);
+                        Console.Write(GlobalConstants.RightBorderElement);
                     }
                 }
-
-
             }
 
         }
@@ -80,8 +80,8 @@
 
         public static void PrintPlayerScore(int playerScore)
         {
-            Console.SetCursorPosition(Constants.ScreenWidthMiddle / 2, 1);
-            Console.Write(Constants.PlayerScoreLabel + playerScore);
+            Console.SetCursorPosition(GlobalConstants.ScreenWidthMiddle / 2, 1);
+            Console.Write(GlobalConstants.PlayerScoreLabel + playerScore);
         }
 
         public static void PrintPlayerRocket(List<Point> playerRocket)
@@ -89,22 +89,22 @@
             foreach (Point element in playerRocket)
             {
                 Console.SetCursorPosition(element.Y, element.X);
-                Console.Write(Constants.PlayerRocketElement);
+                Console.Write(GlobalConstants.PlayerRocketElement);
             }
         }
 
         public static void PrintPongBall(Point pongBall)
         {
             Console.SetCursorPosition(pongBall.Y, pongBall.X);
-            Console.Write(Constants.PingPongBallElement);
+            Console.Write(GlobalConstants.PingPongBallElement);
         }
 
         public static void PrintGameOverScreen(string message)
         {
-            Console.SetCursorPosition(Constants.ScreenWidthMiddle - (message.Length / 2), Constants.ScreenHeightMiddle - 1);
+            Console.SetCursorPosition(GlobalConstants.ScreenWidthMiddle - (message.Length / 2), GlobalConstants.ScreenHeightMiddle - 1);
             Console.Write(message);
-            Console.SetCursorPosition(Constants.ScreenWidthMiddle - (Constants.ContinueGameMessage.Length / 2), Constants.ScreenHeightMiddle);
-            Console.Write(Constants.ContinueGameMessage);
+            Console.SetCursorPosition(GlobalConstants.ScreenWidthMiddle - (GlobalConstants.ContinueGameMessage.Length / 2), GlobalConstants.ScreenHeightMiddle);
+            Console.Write(GlobalConstants.ContinueGameMessage);
         }
     }
 }

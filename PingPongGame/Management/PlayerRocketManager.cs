@@ -11,7 +11,7 @@
         public static List<Point> CreatePlayerRocket(int size)
         {
             var rocket = new List<Point>();
-            var rocketOffset = (Constants.ScreenHeightMiddle) - (size / 2);
+            var rocketOffset = (GlobalConstants.ScreenHeightMiddle) - (size / 2);
 
             for (int i = 0; i < size; i++)
             {
