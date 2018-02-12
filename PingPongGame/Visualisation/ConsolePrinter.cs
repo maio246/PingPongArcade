@@ -47,7 +47,7 @@
             Console.Write(GlobalConstants.SelectedMultiplayerMessage);
         }
 
-        public static void PrintFieldBorders(bool hasSecondPlayer)
+        public static void PrintFieldBorders(bool areTwoPlayersSelected)
         {
             for (int col = 0; col < Console.WindowWidth - 1; col += 5)
             {
@@ -62,7 +62,7 @@
                         Console.Write(GlobalConstants.TopBottomBorderElement);
                     }
 
-                    if (col + innerCol < Console.WindowHeight - 2 && hasSecondPlayer)
+                    if (col + innerCol < Console.WindowHeight - 2 && !areTwoPlayersSelected)
                     {
                         Console.SetCursorPosition(Console.WindowWidth - 1, col + innerCol);
                         Console.Write(GlobalConstants.RightBorderElement);
@@ -80,7 +80,9 @@
 
         public static void PrintPlayerScore(int playerScore)
         {
-            Console.SetCursorPosition(GlobalConstants.ScreenWidthMiddle / 2, 1);
+            var quoterOfTheFielWidth = GlobalConstants.ScreenWidthMiddle / 2;
+
+            Console.SetCursorPosition(quoterOfTheFielWidth / 2, 1);
             Console.Write(GlobalConstants.PlayerScoreLabel + playerScore);
         }
 

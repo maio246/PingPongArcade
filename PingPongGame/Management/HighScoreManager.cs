@@ -6,9 +6,15 @@ namespace PingPongGame.Management
     {
         private static int playerScore = 0;
 
-        public static int GetPlayerScore() => playerScore;
+        public static int GetPlayerScore
+        {
+            get
+            {
+                return playerScore;
+            }
+        }
 
-        public static void IncreasePlayerScore(int ballMovementSpeed) => playerScore += (ballMovementSpeed * 1);
+        public static void IncreasePlayerScore(int points) => playerScore += points;
 
         public static void ResetPlayerPoints() => playerScore = 0;
     }

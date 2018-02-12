@@ -15,7 +15,7 @@
 
         public static Point GetNextDirection(ConsoleKeyInfo keyPressed)
         {
-            if (keyPressed.Key == ConsoleKey.DownArrow)
+            if (keyPressed.Key == ConsoleKey.DownArrow || keyPressed.Key == ConsoleKey.S)
             {
                 return new Point(1, 0);
             }
