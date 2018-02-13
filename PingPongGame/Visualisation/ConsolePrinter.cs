@@ -49,6 +49,8 @@
 
         public static void PrintFieldBorders(bool areTwoPlayersSelected)
         {
+            Console.Clear();
+
             for (int col = 0; col < Console.WindowWidth - 1; col += 5)
             {
                 for (int innerCol = 1; innerCol <= 5; innerCol++)

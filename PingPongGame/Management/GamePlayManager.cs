@@ -57,6 +57,13 @@
 
         public static void GamePlay(int parsedDifficultyKey, bool areTwoPlayersSelected)
         {
+            PlayerRocketManager.CreatePlayerRockets(parsedDifficultyKey, areTwoPlayersSelected);
+
+            if (!areTwoPlayersSelected)
+            {
+                HighScoreManager.ResetPlayerPoints();
+            }
+
             var changeDirection = false;
 
             var ballMovementSpeed = (5 * parsedDifficultyKey) + 50;
@@ -70,7 +77,6 @@
 
             while (true)
             {
-                //read players key input
                 ReadPlayersInputKey(areTwoPlayersSelected);
 
                 var isHittingFirstPlayerRocket = BallBounceValidator.IsHittingPlayerRocket(pongBall, ballDirection, PlayerRocketManager.LeftPlayerRocket);
@@ -116,6 +122,7 @@
                     {
                         ConsolePrinter.PrintGameOverScreen(ex.Message);
                     }
+
                     break;
                 }
 
@@ -134,6 +141,24 @@
                 }
 
                 Thread.Sleep(ballMovementSpeed);
+            }
+        }
+
+        public static void GameOverMenu()
+        {
+            while (true)
+            {
+                var playerChoice = Console.ReadKey(true);
+
+                if (playerChoice.Key == ConsoleKey.Spacebar)
+                {
+                    Console.Clear();
+                    break;
+                }
+                if (playerChoice.Key == ConsoleKey.Escape)
+                {
+                    Environment.Exit(0);
+                }
             }
         }
 
@@ -188,22 +213,5 @@
             return elementToDelete;
         }
 
-        public static void GameOverMenu()
-        {
-            while (true)
-            {
-                var playerChoice = Console.ReadKey(true);
-
-                if (playerChoice.Key == ConsoleKey.Spacebar)
-                {
-                    Console.Clear();
-                    break;
-                }
-                if (playerChoice.Key == ConsoleKey.Escape)
-                {
-                    Environment.Exit(0);
-                }
-            }
-        }
     }
 }

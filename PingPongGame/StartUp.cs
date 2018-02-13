@@ -14,7 +14,6 @@
                 Console.CursorVisible = false;
 
                 EnvironmentSettings.SetEnvironment();
-                HighScoreManager.ResetPlayerPoints();
 
                 var areTwoPlayersSelected = GamePlayManager.PlayersCountChoiceScreen();
 
@@ -23,9 +22,6 @@
 
                 var parsedDifficultyKey = int.Parse(difficultyLevelKey.KeyChar.ToString());
 
-                PlayerRocketManager.CreatePlayerRockets(parsedDifficultyKey, areTwoPlayersSelected);
-
-                Console.Clear();
                 ConsolePrinter.PrintFieldBorders(areTwoPlayersSelected);
 
                 GamePlayManager.GamePlay(parsedDifficultyKey, areTwoPlayersSelected);
