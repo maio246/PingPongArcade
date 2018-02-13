@@ -53,23 +53,40 @@
             {
                 for (int innerCol = 1; innerCol <= 5; innerCol++)
                 {
-                    if (col + innerCol < Console.WindowWidth)
+                    if (areTwoPlayersSelected)
                     {
-                        Console.SetCursorPosition(col + innerCol, 0);
-                        Console.Write(GlobalConstants.TopBottomBorderElement);
+                        if (col + innerCol < Console.WindowWidth - 1)
+                        {
+                            Console.SetCursorPosition(col + innerCol, 0);
+                            Console.Write(GlobalConstants.TopBottomBorderElement);
 
-                        Console.SetCursorPosition(col + innerCol, Console.WindowHeight - 2);
-                        Console.Write(GlobalConstants.TopBottomBorderElement);
+                            Console.SetCursorPosition(col + innerCol, Console.WindowHeight - 3);
+                            Console.Write(GlobalConstants.TopBottomBorderElement);
+                        }
+
                     }
-
-                    if (col + innerCol < Console.WindowHeight - 2 && !areTwoPlayersSelected)
+                    else
                     {
-                        Console.SetCursorPosition(Console.WindowWidth - 1, col + innerCol);
-                        Console.Write(GlobalConstants.RightBorderElement);
+                        if (col + innerCol < Console.WindowWidth)
+                        {
+                            Console.SetCursorPosition(col + innerCol, 0);
+                            Console.Write(GlobalConstants.TopBottomBorderElement);
+
+                            Console.SetCursorPosition(col + innerCol, Console.WindowHeight - 3);
+                            Console.Write(GlobalConstants.TopBottomBorderElement);
+                        }
+
+                        if (col + innerCol < Console.WindowHeight - 2)
+                        {
+                            Console.SetCursorPosition(Console.WindowWidth - 1, col + innerCol);
+                            Console.Write(GlobalConstants.RightBorderElement);
+                        }
                     }
                 }
             }
-
+            
+            Console.SetCursorPosition(Console.WindowWidth - GlobalConstants.CreatorName.Length, Console.WindowHeight - 2);
+            Console.Write(GlobalConstants.CreatorName);
         }
 
         public static void DeleteElement(int y, int x)
@@ -101,11 +118,24 @@
             Console.Write(GlobalConstants.PingPongBallElement);
         }
 
-        public static void PrintGameOverScreen(string message)
+        public static void PrintGameOverScreen(string mainExceptionMessage)
         {
-            Console.SetCursorPosition(GlobalConstants.ScreenWidthMiddle - (message.Length / 2), GlobalConstants.ScreenHeightMiddle - 1);
-            Console.Write(message);
+            Console.SetCursorPosition(GlobalConstants.ScreenWidthMiddle - (mainExceptionMessage.Length / 2), GlobalConstants.ScreenHeightMiddle - 1);
+            Console.Write(mainExceptionMessage);
+
             Console.SetCursorPosition(GlobalConstants.ScreenWidthMiddle - (GlobalConstants.ContinueGameMessage.Length / 2), GlobalConstants.ScreenHeightMiddle);
+            Console.Write(GlobalConstants.ContinueGameMessage);
+        }
+
+        public static void PrintGameOverScreen(string mainExceptionMessage, string innerExceptionMessage)
+        {
+            Console.SetCursorPosition(GlobalConstants.ScreenWidthMiddle - (mainExceptionMessage.Length / 2), GlobalConstants.ScreenHeightMiddle - 1);
+            Console.Write(mainExceptionMessage);
+
+            Console.SetCursorPosition(GlobalConstants.ScreenWidthMiddle - (innerExceptionMessage.Length / 2), GlobalConstants.ScreenHeightMiddle);
+            Console.Write(innerExceptionMessage);
+
+            Console.SetCursorPosition(GlobalConstants.ScreenWidthMiddle - (GlobalConstants.ContinueGameMessage.Length / 2), GlobalConstants.ScreenHeightMiddle + 1);
             Console.Write(GlobalConstants.ContinueGameMessage);
         }
     }

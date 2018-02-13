@@ -7,9 +7,11 @@
 
     public static class BallBounceValidator
     {
-        public static bool IsHittingPlayerRocket(Point pongBall, Point ballDirection, List<Point> playerRocket) => 
-            playerRocket.Any(element => element.X == pongBall.X + ballDirection.X
-                            && element.Y == pongBall.Y + ballDirection.Y);
+        public static bool IsHittingPlayerRocket(Point pongBall, Point ballDirection, List<Point> playerRocket) =>
+            playerRocket.Any(element => (element.X == pongBall.X + ballDirection.X
+                            && element.Y == pongBall.Y + ballDirection.Y) 
+                            || element.X == Math.Abs(pongBall.X - ballDirection.X)
+                            && element.Y == Math.Abs(pongBall.Y - ballDirection.Y));
 
         public static bool IsHittingBorder(Point pongBall, Point ballDirection, bool areTwoPlayersSelected)
         {
@@ -18,7 +20,7 @@
                                         && pongBall.Y + ballDirection.Y > 1
                                         && pongBall.Y + ballDirection.Y < Console.WindowWidth - 1;
 
-            bool isHittingBottomSide = pongBall.X + ballDirection.X >= Console.WindowHeight - 2
+            bool isHittingBottomSide = pongBall.X + ballDirection.X >= Console.WindowHeight - 3
                                         && pongBall.Y + ballDirection.Y > 1
                                         && pongBall.Y + ballDirection.Y < Console.WindowWidth - 1;
 
@@ -26,7 +28,7 @@
             {
                 bool isHittingRightSide = pongBall.Y + ballDirection.Y >= Console.WindowWidth - 2
                                             && pongBall.X + ballDirection.X > 1
-                                            && pongBall.X + ballDirection.X < Console.WindowHeight - 1;
+                                            && pongBall.X + ballDirection.X < Console.WindowHeight - 2;
 
                 return isHittingTopSide || isHittingBottomSide || isHittingRightSide;
             }
@@ -41,7 +43,7 @@
                 && (pongBall.Y + ballDirection.Y == 1 || pongBall.Y + ballDirection.Y == Console.WindowWidth - 1);
 
             var steppingAtTheBottomEdges =
-                pongBall.X + ballDirection.X == Console.WindowHeight - 2
+                pongBall.X + ballDirection.X == Console.WindowHeight - 3
                 && (pongBall.Y + ballDirection.Y == 1 || pongBall.Y + ballDirection.Y == Console.WindowWidth - 1);
 
             return steppingAtTheTopEdges && steppingAtTheBottomEdges;

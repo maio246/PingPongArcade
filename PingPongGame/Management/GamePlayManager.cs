@@ -15,7 +15,7 @@
             ConsolePrinter.SinglePlayerScreen();
             ConsoleKeyInfo arrowKeyChoice = new ConsoleKeyInfo((char)38, ConsoleKey.UpArrow, false, false, false);
 
-            ConsoleKeyInfo playersChoise = Console.ReadKey();
+            ConsoleKeyInfo playersChoise = Console.ReadKey(true);
 
             while (playersChoise.Key != ConsoleKey.Enter)
             {
@@ -29,7 +29,7 @@
                 }
 
                 arrowKeyChoice = playersChoise;
-                playersChoise = Console.ReadKey();
+                playersChoise = Console.ReadKey(true);
             }
 
             return arrowKeyChoice.Key == ConsoleKey.UpArrow ? false : true;
@@ -43,7 +43,7 @@
 
                 ConsolePrinter.StartScreen();
 
-                ConsoleKeyInfo difficultyLevelKey = Console.ReadKey();
+                ConsoleKeyInfo difficultyLevelKey = Console.ReadKey(true);
 
                 if (!GameKeyAuthenticator.IsDifficultyLevelKey(difficultyLevelKey))
                 {
@@ -74,7 +74,12 @@
                 ReadPlayersInputKey(areTwoPlayersSelected);
 
                 var isHittingFirstPlayerRocket = BallBounceValidator.IsHittingPlayerRocket(pongBall, ballDirection, PlayerRocketManager.LeftPlayerRocket);
-                var isHittingSecondPlayerRocket = BallBounceValidator.IsHittingPlayerRocket(pongBall, ballDirection, PlayerRocketManager.LeftPlayerRocket);
+                bool isHittingSecondPlayerRocket = false;
+
+                if (areTwoPlayersSelected)
+                {
+                    isHittingSecondPlayerRocket = BallBounceValidator.IsHittingPlayerRocket(pongBall, ballDirection, PlayerRocketManager.RightPlayerRocket);
+                }
 
                 if ((isHittingFirstPlayerRocket || isHittingSecondPlayerRocket) && changeDirection)
                 {
@@ -84,16 +89,16 @@
                     {
                         HighScoreManager.IncreasePlayerScore(baseScore);
                     }
+                    else if (BallBounceValidator.IsHittingEdge(pongBall, ballDirection, areTwoPlayersSelected))
+                    {
+                        ballDirection = DirectionManager.GetReversedDiagonalDirection(pongBall, ballDirection);
+                    }
 
                     ballDirection = DirectionManager.GetDiagonalDirection(pongBall, ballDirection);
                 }
                 else if (BallBounceValidator.IsHittingBorder(pongBall, ballDirection, areTwoPlayersSelected))
                 {
                     ballDirection = DirectionManager.GetDiagonalDirection(pongBall, ballDirection);
-                }
-                else if (BallBounceValidator.IsHittingEdge(pongBall, ballDirection, areTwoPlayersSelected))
-                {
-                    ballDirection = DirectionManager.GetReversedDiagonalDirection(pongBall, ballDirection);
                 }
 
                 try
@@ -103,7 +108,14 @@
                 }
                 catch (GameOverException ex)
                 {
-                    ConsolePrinter.PrintGameOverScreen(ex.Message);
+                    if (areTwoPlayersSelected)
+                    {
+                    ConsolePrinter.PrintGameOverScreen(ex.Message, ex.InnerException.Message);
+                    }
+                    else
+                    {
+                        ConsolePrinter.PrintGameOverScreen(ex.Message);
+                    }
                     break;
                 }
 
@@ -132,6 +144,7 @@
                 ConsoleKeyInfo movementDirectionKey = Console.ReadKey(true);
 
                 Console.CursorVisible = false;
+
                 if (GameKeyAuthenticator.IsArrowKey(movementDirectionKey))
                 {
                     var newDirection = DirectionManager.GetNextDirection(movementDirectionKey);
@@ -142,32 +155,44 @@
                     {
                         if (movementDirectionKey.Key == ConsoleKey.W || movementDirectionKey.Key == ConsoleKey.S)
                         {
-                            elementToDelete = PlayerRocketManager.GetElementToDelete(PlayerRocketManager.LeftPlayerRocket, newDirection);
-                            PlayerRocketManager.UpdateLeftPlayerRocket(newDirection);
-                            ConsolePrinter.DeleteElement(elementToDelete.Y, elementToDelete.X);
+                            elementToDelete = UpdateLeftRocket(true, newDirection);
                         }
                         else
                         {
-                            elementToDelete = PlayerRocketManager.GetElementToDelete(PlayerRocketManager.RightPlayerRocket, newDirection);
-                            PlayerRocketManager.UpdateRightPlayerRocket(newDirection);
-                            ConsolePrinter.DeleteElement(elementToDelete.Y, elementToDelete.X);
+                            elementToDelete = UpdateLeftRocket(false, newDirection);
                         }
                     }
                     else if (!areTwoPlayersSelected)
                     {
-                        elementToDelete = PlayerRocketManager.GetElementToDelete(PlayerRocketManager.LeftPlayerRocket, newDirection);
-                        PlayerRocketManager.UpdateLeftPlayerRocket(newDirection);
-                        ConsolePrinter.DeleteElement(elementToDelete.Y, elementToDelete.X);
+                        elementToDelete = UpdateLeftRocket(true, newDirection);
                     }
                 }
             }
+        }
+
+        private static Point UpdateLeftRocket(bool isLeftRocketForUpdate, Point newDirection)
+        {
+            Point elementToDelete = new Point(0, 0);
+            if (!isLeftRocketForUpdate)
+            {
+                elementToDelete = PlayerRocketManager.GetElementToDelete(PlayerRocketManager.RightPlayerRocket, newDirection);
+                PlayerRocketManager.UpdateRightPlayerRocket(newDirection);
+            }
+            else
+            {
+                elementToDelete = PlayerRocketManager.GetElementToDelete(PlayerRocketManager.LeftPlayerRocket, newDirection);
+                PlayerRocketManager.UpdateLeftPlayerRocket(newDirection);
+            }
+
+            ConsolePrinter.DeleteElement(elementToDelete.Y, elementToDelete.X);
+            return elementToDelete;
         }
 
         public static void GameOverMenu()
         {
             while (true)
             {
-                var playerChoice = Console.ReadKey();
+                var playerChoice = Console.ReadKey(true);
 
                 if (playerChoice.Key == ConsoleKey.Spacebar)
                 {

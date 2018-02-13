@@ -9,8 +9,8 @@
         public static string TopBottomBorderElement = "-";
         public static string RightBorderElement = "|";
 
-
         public static string GameTitle = "Ping Pong Arcade";
+        public static string CreatorName = "Create by Michael Stoyanov - 2018";
 
         public static int FieldWidth = Console.WindowWidth / 5;
 
@@ -24,6 +24,8 @@
         public static string DifficultyChoiceMessage = "press button from 1 to 9: ";
 
         public static string PlayerScoreLabel = "Score: ";
+
+        public static string PlayerLossMessage = "Player {0} loses the game!";
 
         public static string GameOverMessage = "Game Over!";
         public static string ContinueGameMessage = "Press 'Space' key if you want to play again!";

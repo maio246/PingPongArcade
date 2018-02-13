@@ -22,7 +22,8 @@
 
         public static void UpdateLeftPlayerRocket(Point newDirection)
         {
-            var isHittingWall = LeftPlayerRocket.Any(point => point.X + newDirection.X == Console.WindowHeight || point.X + newDirection.X < 0);
+            var isHittingWall = LeftPlayerRocket.Any(point => point.X + newDirection.X == Console.WindowHeight - 2 
+                                                            || point.X + newDirection.X < 0);
             if (!isHittingWall)
             {
                 LeftPlayerRocket = LeftPlayerRocket.Select(element => new Point()
@@ -35,7 +36,8 @@
 
         public static void UpdateRightPlayerRocket(Point newDirection)
         {
-            var isHittingWall = RightPlayerRocket.Any(point => point.X + newDirection.X == Console.WindowHeight || point.X + newDirection.X < 0);
+            var isHittingWall = RightPlayerRocket.Any(point => point.X + newDirection.X == Console.WindowHeight - 2
+                                                            || point.X + newDirection.X < 0);
             if (!isHittingWall)
             {
                 RightPlayerRocket = RightPlayerRocket.Select(element => new Point()

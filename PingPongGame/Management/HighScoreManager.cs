@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PingPongGame.Management
+﻿namespace PingPongGame.Management
 {
     public static class HighScoreManager
     {

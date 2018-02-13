@@ -1,5 +1,6 @@
 ﻿namespace PingPongGame
 {
+    using PingPongGame.GlobalConstants;
     using PingPongGame.Management;
     using PingPongGame.Visualisation;
     using System;
